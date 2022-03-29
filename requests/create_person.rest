@@ -8,3 +8,12 @@ content-type: application/json
 
 ###
 GET http://localhost:3001/api/persons
+
+###
+POST http://localhost:3001/api/persons
+content-type: application/json
+
+{ 
+      "name": "dyy", 
+      "number": "6264139632"
+}
