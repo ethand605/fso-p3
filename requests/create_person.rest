@@ -1,0 +1,10 @@
+POST http://localhost:3001/api/persons
+content-type: application/json
+
+{ 
+      "name": "Yuyang Deng", 
+      "number": "6264139632"
+}
+
+###
+GET http://localhost:3001/api/persons
