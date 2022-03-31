@@ -16,19 +16,19 @@ app.use(express.json())
 morgan.token('data', function (req, res) { return JSON.stringify(req.body) })
 
 const generateID = () => {
-    return Math.floor(Math.random()*9999999);
+    return Math.floor(Math.random()*9999999)
 }
 
 app.get('/api/persons', (req, res) => {
-    Person.find({}).then(people=> {
-        res.json(people);
+    Person.find({}).then(people => {
+        res.json(people)
     })
 })
 
 //write a delete endpoint
 app.delete('/api/persons/:id', (req, res) => {
     Person.findByIdAndRemove(req.params.id)
-        .then(result => {
+        .then(() => {
             res.status(204).end()
         })
         .catch(error => {
@@ -44,14 +44,15 @@ app.get('/info', (req, res) => {
 //find person by id
 app.get('/api/persons/:id', ((req, res,next) => {
     const id = req.params.id
-    Person.findById(id).then(person => {
-        if (person) {
-            res.json(person)
-        } else {
-            res.status(404).end()
-        }
-    })
-    .catch(error => next(error))
+    Person.findById(id)
+        .then(person => {
+            if (person) {
+                res.json(person)
+            } else {
+                res.status(404).end()
+            }
+        })
+        .catch(error => next(error))
 }))
 
 
@@ -61,14 +62,14 @@ app.post('/api/persons', (req, res) => {
     const body = req.body
     // console.log(body);
     if (!body.name || !body.number){
-        return res.status(400).json({error: 'name or number missing'})
+        return res.status(400).json({ error: 'name or number missing' })
     }
     const newPerson = new Person({
         name: body.name,
         number: body.number
     })
     newPerson.save().then(savedPerson => {
-        res.json(savedPerson);
+        res.json(savedPerson)
     })
 })
 
@@ -90,18 +91,19 @@ app.post('/api/persons', (req, res) => {
 // })
 const unknownEndpoint = (request, response) => {
     response.status(404).send({ error: 'unknown endpoint' })
-  }
+}
   
 app.use(unknownEndpoint)
 
 const errorHandler = (error, request, response, next) => {
-    console.log(error.message);
+    console.log(error.message)
 
     if (error.name==='CastError') {return response.status(400).send({ error: 'malformatted id' });}
 }
 
 app.use(errorHandler)
 
+// eslint-disable-next-line no-undef
 const PORT = process.env.PORT || 3001
 app.listen(PORT)
 console.log(`Server running on port ${PORT}`)
